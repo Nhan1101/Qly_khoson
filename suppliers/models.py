@@ -6,8 +6,9 @@ from django.core.exceptions import ValidationError
 # ================= NGƯỜI DÙNG =================
 class NguoiDung(AbstractUser):
     VAI_TRO_CHOICES = (
-        ('Admin', 'Admin'),
-        ('NhanVien', 'Nhân viên'),
+        ('Admin', 'Chủ cửa hàng'),
+        ('NhanVien', 'Nhân viên kho'),
+        ('GiaoHang', 'Giao hàng'),
     )
 
     vai_tro = models.CharField(max_length=50, choices=VAI_TRO_CHOICES)

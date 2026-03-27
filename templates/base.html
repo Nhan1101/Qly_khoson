@@ -21,7 +21,6 @@
       <div class="topbar-right">
         <div class="topbar-user">
           <div class="topbar-user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
-          <div class="topbar-user-role">Tài khoản đang đăng nhập</div>
         </div>
         <button class="icon-btn" type="button" aria-label="Thông báo">
           <span class="icon">
@@ -46,7 +45,7 @@
           <div class="avatar-circle">NV</div>
           <div>
             <div class="sidebar-user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
-            <div class="sidebar-user-role">Nhân viên</div>
+            <div class="sidebar-user-role">Nguyễn Văn B</div>
           </div>
         </div>
         <div class="divider"></div>
@@ -102,10 +101,10 @@
           </div>
 
           <div class="menu-group">
-            <button class="menu-title" type="button">
+            <a class="menu-title {% block menu_accounts_active %}{% endblock %}" href="{% url 'accounts_list' %}">
               <span class="menu-icon" aria-hidden="true"></span>
               Quản lý Tài khoản
-            </button>
+            </a>
           </div>
 
           <div class="menu-group">
