@@ -4,15 +4,21 @@ from .views import (
     AccountCreateView,
     AccountDeleteView,
     AccountListView,
+    AccountUpdateView,
     KiemKeCreateView,
     KiemKeDetailView,
-    AccountUpdateView,
     KiemKeListView,
     SupplierListView,
+    supplier_create,
+    supplier_delete,
+    supplier_update,
 )
 
 urlpatterns = [
     path("", SupplierListView.as_view(), name="suppliers_list"),
+    path("create/", supplier_create, name="suppliers_create"),
+    path("update/<int:pk>/", supplier_update, name="suppliers_update"),
+    path("delete/<int:pk>/", supplier_delete, name="suppliers_delete"),
     path("accounts/", AccountListView.as_view(), name="accounts_list"),
     path("accounts/create/", AccountCreateView.as_view(), name="account_create"),
     path("accounts/<int:pk>/edit/", AccountUpdateView.as_view(), name="account_edit"),

@@ -1,14 +1,20 @@
+from decimal import Decimal, InvalidOperation
+
 from django.contrib import messages
 from django.db import transaction
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.http import urlencode
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.http import require_POST
 from django.views.generic import ListView
 
 from .forms import AccountForm
-from .models import ChiTietPhieuKiemKe, NhaCungCap, NguoiDung, PhieuKiemKe, TonKho
+from .models import ChiTietPhieuKiemKe, NhaCungCap, NguoiDung, PhieuKiemKe, SanPham, TonKho
 
 
 def apply_ticket_display_state(ticket):
@@ -87,11 +93,81 @@ def build_ticket_detail_rows(ticket, data=None):
     return rows, errors
 
 
+@method_decorator(ensure_csrf_cookie, name="dispatch")
 class SupplierListView(ListView):
     model = NhaCungCap
     template_name = "suppliers/index.html"
     context_object_name = "suppliers"
     paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        ma = self.request.GET.get("ma", "").strip()
+        ten_ncc = self.request.GET.get("ten_ncc", "").strip()
+        email = self.request.GET.get("email", "").strip()
+        so_dien_thoai = self.request.GET.get("so_dien_thoai", "").strip()
+        dia_chi = self.request.GET.get("dia_chi", "").strip()
+
+        if ma:
+            normalized = ma.upper().replace("NCC_", "").replace("NCC", "").strip()
+            if normalized.isdigit():
+                queryset = queryset.filter(id=int(normalized))
+            else:
+                queryset = queryset.filter(id__icontains=normalized)
+
+        if ten_ncc:
+            queryset = queryset.filter(ten_ncc__icontains=ten_ncc)
+        if email:
+            queryset = queryset.filter(email__icontains=email)
+        if so_dien_thoai:
+            queryset = queryset.filter(so_dien_thoai__icontains=so_dien_thoai)
+        if dia_chi:
+            queryset = queryset.filter(dia_chi__icontains=dia_chi)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["delete_success"] = self.request.GET.get("deleted") == "1"
+        last_id = NhaCungCap.objects.order_by("-id").values_list("id", flat=True).first() or 0
+        context["next_code"] = f"NCC_{last_id + 1:02d}"
+        return context
+
+
+@method_decorator(ensure_csrf_cookie, name="dispatch")
+class ProductListView(ListView):
+    model = SanPham
+    template_name = "products/index.html"
+    context_object_name = "products"
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        ma_son = self.request.GET.get("ma_son", "").strip()
+        ten_son = self.request.GET.get("ten_son", "").strip()
+        loai_son = self.request.GET.get("loai_son", "").strip()
+        mau_sac = self.request.GET.get("mau_sac", "").strip()
+        don_vi_tinh = self.request.GET.get("don_vi_tinh", "").strip()
+
+        if ma_son:
+            queryset = queryset.filter(ma_son__icontains=ma_son)
+        if ten_son:
+            queryset = queryset.filter(ten_son__icontains=ten_son)
+        if loai_son:
+            queryset = queryset.filter(loai_son__icontains=loai_son)
+        if mau_sac:
+            queryset = queryset.filter(mau_sac__icontains=mau_sac)
+        if don_vi_tinh:
+            queryset = queryset.filter(don_vi_tinh__icontains=don_vi_tinh)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["delete_success"] = self.request.GET.get("deleted") == "1"
+        last_id = SanPham.objects.order_by("-id").values_list("id", flat=True).first() or 0
+        context["next_code"] = f"SP_{last_id + 1:02d}"
+        return context
 
 
 class AccountListView(ListView):
@@ -312,3 +388,132 @@ class AccountDeleteView(View):
         user.delete()
         messages.success(request, "Đã xoá tài khoản.")
         return redirect(next_url)
+
+
+def _parse_decimal(value):
+    try:
+        return Decimal(value)
+    except (InvalidOperation, TypeError):
+        return Decimal("0")
+
+
+@require_POST
+def supplier_create(request):
+    ten_ncc = request.POST.get("ten_ncc", "").strip()
+    so_dien_thoai = request.POST.get("so_dien_thoai", "").strip()
+    email = request.POST.get("email", "").strip() or None
+    dia_chi = request.POST.get("dia_chi", "").strip() or None
+
+    if ten_ncc and so_dien_thoai:
+        NhaCungCap.objects.create(
+            ten_ncc=ten_ncc,
+            so_dien_thoai=so_dien_thoai,
+            email=email,
+            dia_chi=dia_chi,
+        )
+
+    return redirect("suppliers_list")
+
+
+@require_POST
+def supplier_update(request, pk):
+    supplier = get_object_or_404(NhaCungCap, pk=pk)
+
+    ten_ncc = request.POST.get("ten_ncc", "").strip()
+    so_dien_thoai = request.POST.get("so_dien_thoai", "").strip()
+    email = request.POST.get("email", "").strip() or None
+    dia_chi = request.POST.get("dia_chi", "").strip() or None
+
+    if ten_ncc and so_dien_thoai:
+        supplier.ten_ncc = ten_ncc
+        supplier.so_dien_thoai = so_dien_thoai
+        supplier.email = email
+        supplier.dia_chi = dia_chi
+        supplier.save()
+
+    return redirect("suppliers_list")
+
+
+@require_POST
+def supplier_delete(request, pk):
+    supplier = get_object_or_404(NhaCungCap, pk=pk)
+    supplier.delete()
+    url = reverse("suppliers_list")
+    return redirect(f"{url}?{urlencode({'deleted': 1})}")
+
+
+@require_POST
+def product_create(request):
+    ma_son = request.POST.get("ma_son", "").strip()
+    ten_son = request.POST.get("ten_son", "").strip()
+    loai_son = request.POST.get("loai_son", "").strip()
+    mau_sac = request.POST.get("mau_sac", "").strip() or None
+    don_vi_tinh = request.POST.get("don_vi_tinh", "").strip()
+    gia_nhap = _parse_decimal(request.POST.get("gia_nhap", "0"))
+    ty_le_loi_nhuan = _parse_decimal(request.POST.get("ty_le_loi_nhuan", "0"))
+    muc_toi_thieu = request.POST.get("muc_toi_thieu", "").strip()
+
+    try:
+        muc_toi_thieu_value = int(muc_toi_thieu) if muc_toi_thieu else 0
+    except ValueError:
+        muc_toi_thieu_value = 0
+
+    if ma_son and ten_son and loai_son and don_vi_tinh:
+        product = SanPham.objects.create(
+            ma_son=ma_son,
+            ten_son=ten_son,
+            loai_son=loai_son,
+            mau_sac=mau_sac,
+            don_vi_tinh=don_vi_tinh,
+            gia_nhap=gia_nhap,
+            ty_le_loi_nhuan=ty_le_loi_nhuan,
+        )
+        TonKho.objects.get_or_create(
+            san_pham=product,
+            defaults={"muc_toi_thieu": muc_toi_thieu_value},
+        )
+
+    return redirect("products_list")
+
+
+@require_POST
+def product_update(request, pk):
+    product = get_object_or_404(SanPham, pk=pk)
+
+    ma_son = request.POST.get("ma_son", "").strip()
+    ten_son = request.POST.get("ten_son", "").strip()
+    loai_son = request.POST.get("loai_son", "").strip()
+    mau_sac = request.POST.get("mau_sac", "").strip() or None
+    don_vi_tinh = request.POST.get("don_vi_tinh", "").strip()
+    gia_nhap = _parse_decimal(request.POST.get("gia_nhap", "0"))
+    ty_le_loi_nhuan = _parse_decimal(request.POST.get("ty_le_loi_nhuan", "0"))
+    muc_toi_thieu = request.POST.get("muc_toi_thieu", "").strip()
+
+    try:
+        muc_toi_thieu_value = int(muc_toi_thieu) if muc_toi_thieu else 0
+    except ValueError:
+        muc_toi_thieu_value = 0
+
+    if ma_son and ten_son and loai_son and don_vi_tinh:
+        product.ma_son = ma_son
+        product.ten_son = ten_son
+        product.loai_son = loai_son
+        product.mau_sac = mau_sac
+        product.don_vi_tinh = don_vi_tinh
+        product.gia_nhap = gia_nhap
+        product.ty_le_loi_nhuan = ty_le_loi_nhuan
+        product.save()
+
+        ton_kho, _ = TonKho.objects.get_or_create(san_pham=product)
+        ton_kho.muc_toi_thieu = muc_toi_thieu_value
+        ton_kho.save()
+
+    return redirect("products_list")
+
+
+@require_POST
+def product_delete(request, pk):
+    product = get_object_or_404(SanPham, pk=pk)
+    product.delete()
+    url = reverse("products_list")
+    return redirect(f"{url}?{urlencode({'deleted': 1})}")
