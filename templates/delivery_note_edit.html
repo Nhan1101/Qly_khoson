@@ -1,0 +1,112 @@
+﻿{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sơn Alex - Sửa phiếu xuất kho{% endblock %}
+
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/pages/delivery_note_edit.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="delivery-edit-page" data-list-url="{% url 'delivery-note-list' %}">
+  <div class="delivery-edit-shell">
+    <div class="delivery-edit-card">
+      <a class="delivery-edit-close" href="{% url 'delivery-note-list' %}">X</a>
+      <h2 class="delivery-edit-title">PHIẾU XUẤT KHO</h2>
+
+      <section class="delivery-edit-section">
+        <p class="delivery-edit-section-title">Thông tin chung</p>
+        <div class="delivery-edit-info-grid">
+          <div class="delivery-edit-info-col">
+            <div class="delivery-edit-field">
+              <span class="delivery-edit-label">Nguồn nhận</span>
+              <input id="delivery-edit-nguon-nhan" class="delivery-edit-input" type="text">
+            </div>
+            <div class="delivery-edit-field">
+              <span class="delivery-edit-label">Mã đơn</span>
+              <input id="delivery-edit-ma-don" class="delivery-edit-input" type="text">
+            </div>
+            <div class="delivery-edit-field">
+              <span class="delivery-edit-label">Số điện thoại</span>
+              <input id="delivery-edit-so-dien-thoai" class="delivery-edit-input" type="text">
+            </div>
+            <div class="delivery-edit-field">
+              <span class="delivery-edit-label">Địa chỉ</span>
+              <input id="delivery-edit-dia-chi" class="delivery-edit-input" type="text">
+            </div>
+          </div>
+
+          <div class="delivery-edit-info-col">
+            <div class="delivery-edit-field">
+              <span class="delivery-edit-label">Mã phiếu</span>
+              <input id="delivery-edit-ma-phieu" class="delivery-edit-input" type="text">
+            </div>
+            <div class="delivery-edit-field">
+              <span class="delivery-edit-label">Ngày xuất</span>
+              <input id="delivery-edit-ngay-xuat" class="delivery-edit-input" type="text">
+            </div>
+            <div class="delivery-edit-field">
+              <span class="delivery-edit-label">Dự kiến giao</span>
+              <input id="delivery-edit-du-kien-giao" class="delivery-edit-input" type="text">
+            </div>
+            <div class="delivery-edit-field">
+              <span class="delivery-edit-label">Lý do xuất</span>
+              <input id="delivery-edit-ly-do-xuat" class="delivery-edit-input" type="text">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="delivery-edit-products-head">
+        <h3 class="delivery-edit-products-title">Danh sách hàng hóa</h3>
+        <button id="delivery-edit-add-btn" class="delivery-edit-add-btn" type="button">
+          <i class="fa-solid fa-circle-plus"></i> Thêm
+        </button>
+      </div>
+
+      <div class="delivery-edit-table-wrap">
+        <table class="delivery-edit-table">
+          <thead>
+            <tr>
+              <th style="width: 44px;">STT</th>
+              <th>Tên hàng hóa</th>
+              <th style="width: 96px;">Mã hàng</th>
+              <th style="width: 74px;">Đơn vị tính</th>
+              <th style="width: 110px;">Đơn giá</th>
+              <th style="width: 74px;">Số lượng</th>
+              <th style="width: 120px;">Thành tiền</th>
+              <th style="width: 50px;">Xóa</th>
+            </tr>
+          </thead>
+          <tbody id="delivery-edit-items"></tbody>
+        </table>
+      </div>
+
+      <div class="delivery-edit-footer">
+        <div class="delivery-edit-total-box">
+          <span class="delivery-edit-total-label">TỔNG TIỀN:</span>
+          <span id="delivery-edit-tong-tien" class="delivery-edit-total-value">0 đ</span>
+        </div>
+        <button id="delivery-edit-save-btn" class="delivery-edit-save-btn" type="button">Lưu</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="delivery-save-modal" class="delivery-save-modal">
+  <div class="delivery-save-dialog">
+    <div class="delivery-save-icon">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <div class="delivery-save-text">Lưu thành công!</div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pages/delivery_note_edit.js' %}" defer></script>
+{% endblock %}
+
+

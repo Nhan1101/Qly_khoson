@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_head %}{% endblock %}
     <script src="{% static 'js/base.js' %}" defer></script>
   </head>
   <body>
@@ -17,10 +18,12 @@
         <img class="logo" src="{% static 'img/alex-logo.jpg' %}" alt="ALEX">
         <div class="slogan">Sơn Alex sơn để Thành Công</div>
       </div>
+
       <div class="topbar-right">
         <div class="topbar-user">
           <div class="topbar-user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
         </div>
+
         <button class="icon-btn" type="button" aria-label="Thông báo">
           <span class="icon">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -28,6 +31,7 @@
             </svg>
           </span>
         </button>
+
         <button class="icon-btn" type="button" aria-label="Đăng xuất">
           <span class="icon">
             <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -47,6 +51,7 @@
             <div class="sidebar-user-role">Nguyễn Văn B</div>
           </div>
         </div>
+
         <div class="divider"></div>
 
         <nav class="menu">
@@ -58,8 +63,12 @@
             </button>
             <ul class="menu-items">
               <li><a href="#">Xuất kho</a></li>
-              <li><a href="#">Phiếu xuất kho</a></li>
-              <li><a href="#">Đơn đặt hàng KH</a></li>
+              <li class="{% if request.path == '/phieu-xuat-kho/' or request.path == '/phieu-xuat-kho/tao-moi/' or request.path == '/phieu-xuat-kho/sua/' or request.path == '/phieu-xuat-kho/thong-tin/' %}is-active-link{% endif %}">
+                <a class="{% if request.path == '/phieu-xuat-kho/' or request.path == '/phieu-xuat-kho/tao-moi/' or request.path == '/phieu-xuat-kho/sua/' or request.path == '/phieu-xuat-kho/thong-tin/' %}is-active{% endif %}" href="{% url 'delivery-note-list' %}">Phiếu xuất kho</a>
+              </li>
+              <li class="{% if request.path == '/don-dat-hang-khach-hang/' or request.path == '/don-dat-hang-khach-hang/tao-moi/' or request.path == '/don-dat-hang-khach-hang/xem-chi-tiet/' or request.path == '/don-dat-hang-khach-hang/sua/' %}is-active-link{% endif %}">
+                <a class="{% if request.path == '/don-dat-hang-khach-hang/' or request.path == '/don-dat-hang-khach-hang/tao-moi/' or request.path == '/don-dat-hang-khach-hang/xem-chi-tiet/' or request.path == '/don-dat-hang-khach-hang/sua/' %}is-active{% endif %}" href="{% url 'customer-order-list' %}">Đơn đặt hàng KH</a>
+              </li>
               <li><a href="#">Nhập kho</a></li>
               <li><a href="#">Phiếu nhập kho</a></li>
               <li><a href="#">Đơn đặt hàng NCC</a></li>
@@ -80,9 +89,15 @@
               <span class="chevron" aria-hidden="true"></span>
             </button>
             <ul class="menu-items">
-              <li><a href="#">Danh mục sản phẩm</a></li>
-              <li><a href="#">Cảnh báo tồn kho</a></li>
-              <li><a href="#">Cảnh báo hạn sử dụng</a></li>
+              <li class="{% if request.path == '/danh-muc-san-pham/' %}is-active-link{% endif %}">
+                <a class="{% if request.path == '/danh-muc-san-pham/' %}is-active{% endif %}" href="{% url 'product-catalog' %}">Danh mục sản phẩm</a>
+              </li>
+              <li class="{% if request.path == '/canh-bao-ton-kho/' %}is-active-link{% endif %}">
+                <a class="{% if request.path == '/canh-bao-ton-kho/' %}is-active{% endif %}" href="{% url 'inventory-alert' %}">Cảnh báo tồn kho</a>
+              </li>
+              <li class="{% if request.path == '/canh-bao-han-su-dung/' %}is-active-link{% endif %}">
+                <a class="{% if request.path == '/canh-bao-han-su-dung/' %}is-active{% endif %}" href="{% url 'expiry-alert' %}">Cảnh báo hạn sử dụng</a>
+              </li>
             </ul>
           </div>
 
@@ -128,5 +143,7 @@
         {% endblock %}
       </main>
     </div>
+
+    {% block extra_js %}{% endblock %}
   </body>
 </html>

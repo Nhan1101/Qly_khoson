@@ -1,0 +1,60 @@
+﻿{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sơn Alex - Cảnh báo tồn kho{% endblock %}
+
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/pages/inventory_alert.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="inventory-page">
+  <div class="inventory-card">
+    <div class="inventory-card-header">
+      <span class="inventory-card-header-title">CẢNH BÁO TỒN KHO</span>
+    </div>
+
+    <div class="inventory-table-wrap">
+      <table class="inventory-table">
+        <thead>
+          <tr>
+            <th style="width: 55px;">STT</th>
+            <th>Tên sản phẩm</th>
+            <th style="width: 150px;">Số lượng tồn</th>
+            <th style="width: 170px;">
+              Mức tối thiểu
+              <span class="inventory-sort-icon" aria-hidden="true">
+                <i class="fa-solid fa-caret-up"></i>
+                <i class="fa-solid fa-caret-down"></i>
+              </span>
+            </th>
+            <th style="width: 140px;">Tình trạng</th>
+          </tr>
+        </thead>
+        <tbody id="inventory-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="inventory-pagination">
+    <button class="inventory-page-btn" type="button" aria-label="Trang trước">
+      <span class="material-icons-outlined" style="font-size: 18px;">chevron_left</span>
+    </button>
+    <button class="inventory-page-btn active" type="button">1</button>
+    <button class="inventory-page-btn" type="button">2</button>
+    <button class="inventory-page-btn" type="button">3</button>
+    <span class="inventory-page-dots">...</span>
+    <button class="inventory-page-btn" type="button" aria-label="Trang sau">
+      <span class="material-icons-outlined" style="font-size: 18px;">chevron_right</span>
+    </button>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pages/inventory_alert.js' %}" defer></script>
+{% endblock %}
+
+
