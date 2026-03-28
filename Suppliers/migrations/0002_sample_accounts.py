@@ -6,21 +6,21 @@ def create_sample_accounts(apps, schema_editor):
     NguoiDung = apps.get_model("suppliers", "NguoiDung")
 
     sample_accounts = [
-        {"username": "NV001", "first_name": "Lê Th?", "last_name": "Thanh", "vai_tro": "Admin", "password": "lethanh1205"},
-        {"username": "NV002", "first_name": "Nguy?n Tr?n", "last_name": "Nhân", "vai_tro": "NhanVien", "password": "Nhan@1101"},
-        {"username": "NV003", "first_name": "Bùi Qu?nh", "last_name": "Nhu", "vai_tro": "NhanVien", "password": "12345"},
-        {"username": "NV004", "first_name": "Tr?n Th?", "last_name": "Thúy Trâm", "vai_tro": "NhanVien", "password": "13572468"},
-        {"username": "NV005", "first_name": "Nguy?n Tu?ng", "last_name": "Vy", "vai_tro": "NhanVien", "password": "Vy1234"},
-        {"username": "NV006", "first_name": "Nguy?n Van", "last_name": "A", "vai_tro": "NhanVien", "password": "12345"},
-        {"username": "NV007", "first_name": "Nguy?n Van", "last_name": "B", "vai_tro": "NhanVien", "password": "12345"},
-        {"username": "NV008", "first_name": "Nguy?n Tr?n", "last_name": "Nghia", "vai_tro": "NhanVien", "password": "A13579"},
-        {"username": "NV009", "first_name": "Ðoàn Xuân", "last_name": "Toàn", "vai_tro": "GiaoHang", "password": "123456"},
+        {"username": "NV001", "first_name": "L? Th?", "last_name": "Thanh", "vai_tro": "Admin", "password": "lethanh1205"},
+        {"username": "NV002", "first_name": "Nguy?n Tr?n", "last_name": "Nh?n", "vai_tro": "NhanVien", "password": "Nhan@1101"},
+        {"username": "NV003", "first_name": "B?i Qu?nh", "last_name": "Nh?", "vai_tro": "NhanVien", "password": "12345"},
+        {"username": "NV004", "first_name": "Tr?n Th?", "last_name": "Th?y Tr?m", "vai_tro": "NhanVien", "password": "13572468"},
+        {"username": "NV005", "first_name": "Nguy?n T??ng", "last_name": "Vy", "vai_tro": "NhanVien", "password": "Vy1234"},
+        {"username": "NV006", "first_name": "Nguy?n V?n", "last_name": "A", "vai_tro": "NhanVien", "password": "12345"},
+        {"username": "NV007", "first_name": "Nguy?n V?n", "last_name": "B", "vai_tro": "NhanVien", "password": "12345"},
+        {"username": "NV008", "first_name": "Nguy?n Tr?n", "last_name": "Ngh?a", "vai_tro": "NhanVien", "password": "A13579"},
+        {"username": "NV009", "first_name": "?o?n Xu?n", "last_name": "To?n", "vai_tro": "GiaoHang", "password": "123456"},
         {"username": "NV010", "first_name": "Nguy?n Nh?t", "last_name": "H?", "vai_tro": "GiaoHang", "password": "123456"},
         {"username": "NV011", "first_name": "Nguy?n Th?", "last_name": "Giang", "vai_tro": "GiaoHang", "password": "Nhan1101"},
-        {"username": "NV012", "first_name": "Nguy?n Van", "last_name": "D", "vai_tro": "GiaoHang", "password": "Nhann13257"},
-        {"username": "NV013", "first_name": "Ph?m Van", "last_name": "E", "vai_tro": "GiaoHang", "password": "PhamE123"},
-        {"username": "NV014", "first_name": "Hoàng Th?", "last_name": "F", "vai_tro": "GiaoHang", "password": "HoangF456"},
-        {"username": "NV015", "first_name": "Ð? Van", "last_name": "G", "vai_tro": "GiaoHang", "password": "DoG789"},
+        {"username": "NV012", "first_name": "Nguy?n V?n", "last_name": "D", "vai_tro": "GiaoHang", "password": "Nhann13257"},
+        {"username": "NV013", "first_name": "Ph?m V?n", "last_name": "E", "vai_tro": "GiaoHang", "password": "PhamE123"},
+        {"username": "NV014", "first_name": "Ho?ng Th?", "last_name": "F", "vai_tro": "GiaoHang", "password": "HoangF456"},
+        {"username": "NV015", "first_name": "?? V?n", "last_name": "G", "vai_tro": "GiaoHang", "password": "DoG789"},
     ]
 
     for account in sample_accounts:
