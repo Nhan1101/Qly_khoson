@@ -22,13 +22,13 @@ def apply_ticket_display_state(ticket):
     details = list(ticket.chitietphieukiemke_set.all())
     has_difference = any(detail.chenh_lech != 0 for detail in details)
     if ticket.trang_thai == "draft" and not details:
-        ticket.display_status = "Đang làm"
+        ticket.display_status = "Äang lÃ m"
         ticket.display_status_class = "status-draft"
     elif has_difference:
-        ticket.display_status = "Chênh lệch"
+        ticket.display_status = "ChÃªnh lá»‡ch"
         ticket.display_status_class = "status-diff"
     else:
-        ticket.display_status = "Khớp"
+        ticket.display_status = "Khá»›p"
         ticket.display_status_class = "status-match"
 
 
@@ -65,13 +65,13 @@ def build_ticket_detail_rows(ticket, data=None):
             try:
                 actual_value = int(actual_raw)
                 if actual_value < 0:
-                    actual_error = "Tồn thực tế phải lớn hơn hoặc bằng 0."
+                    actual_error = "Tá»“n thá»±c táº¿ pháº£i lá»›n hÆ¡n hoáº·c báº±ng 0."
                 else:
                     difference = actual_value - stock.so_luong_ton
                     if actual_value < stock.so_luong_ton and not reason_raw:
-                        reason_error = "Vui lòng nhập lý do khi tồn thực tế nhỏ hơn hệ thống."
+                        reason_error = "Vui lÃ²ng nháº­p lÃ½ do khi tá»“n thá»±c táº¿ nhá» hÆ¡n há»‡ thá»‘ng."
             except ValueError:
-                actual_error = "Tồn thực tế phải là số nguyên."
+                actual_error = "Tá»“n thá»±c táº¿ pháº£i lÃ  sá»‘ nguyÃªn."
 
         if actual_error or reason_error:
             errors.append(stock.san_pham_id)
@@ -282,12 +282,12 @@ class KiemKeCreateView(View):
         next_url = request.POST.get("next") or reverse("kiemke_list")
 
         if not performer_id:
-            messages.error(request, "Vui lòng chọn người thực hiện.")
+            messages.error(request, "Vui lÃ²ng chá»n ngÆ°á»i thá»±c hiá»‡n.")
             return redirect(next_url)
 
         performer = get_object_or_404(NguoiDung, pk=performer_id, dang_hoat_dong=True)
         PhieuKiemKe.objects.create(nguoi_dung=performer, trang_thai="draft")
-        messages.success(request, "Đã tạo phiếu kiểm kê mới.")
+        messages.success(request, "ÄÃ£ táº¡o phiáº¿u kiá»ƒm kÃª má»›i.")
         return redirect(next_url)
 
 
@@ -316,13 +316,13 @@ class KiemKeDetailView(View):
     def post(self, request, pk, *args, **kwargs):
         ticket = self.get_ticket(pk)
         if ticket.trang_thai == "completed":
-            messages.error(request, "Phiếu đã hoàn thành, không thể chỉnh sửa.")
+            messages.error(request, "Phiáº¿u Ä‘Ã£ hoÃ n thÃ nh, khÃ´ng thá»ƒ chá»‰nh sá»­a.")
             return redirect("kiemke_detail", pk=ticket.pk)
 
         rows, errors = build_ticket_detail_rows(ticket, request.POST)
         if errors:
             context = self.build_context(ticket, rows)
-            context["form_error"] = "Vui lòng kiểm tra lại các dòng dữ liệu chưa hợp lệ."
+            context["form_error"] = "Vui lÃ²ng kiá»ƒm tra láº¡i cÃ¡c dÃ²ng dá»¯ liá»‡u chÆ°a há»£p lá»‡."
             return render(request, self.template_name, context, status=400)
 
         existing_details = {
@@ -352,7 +352,7 @@ class KiemKeDetailView(View):
                     },
                 )
 
-        messages.success(request, "Đã lưu chi tiết phiếu kiểm kê.")
+        messages.success(request, "ÄÃ£ lÆ°u chi tiáº¿t phiáº¿u kiá»ƒm kÃª.")
         return redirect("kiemke_detail", pk=ticket.pk)
 
 
@@ -362,9 +362,9 @@ class AccountCreateView(View):
         next_url = request.POST.get("next") or reverse("accounts_list")
         if form.is_valid():
             form.save()
-            messages.success(request, "Đã tạo tài khoản.")
+            messages.success(request, "ÄÃ£ táº¡o tÃ i khoáº£n.")
         else:
-            messages.error(request, "Không thể tạo tài khoản, kiểm tra dữ liệu.")
+            messages.error(request, "KhÃ´ng thá»ƒ táº¡o tÃ i khoáº£n, kiá»ƒm tra dá»¯ liá»‡u.")
         return redirect(next_url)
 
 
@@ -375,9 +375,9 @@ class AccountUpdateView(View):
         next_url = request.POST.get("next") or reverse("accounts_list")
         if form.is_valid():
             form.save()
-            messages.success(request, "Đã cập nhật tài khoản.")
+            messages.success(request, "ÄÃ£ cáº­p nháº­t tÃ i khoáº£n.")
         else:
-            messages.error(request, "Không thể cập nhật tài khoản, kiểm tra dữ liệu.")
+            messages.error(request, "KhÃ´ng thá»ƒ cáº­p nháº­t tÃ i khoáº£n, kiá»ƒm tra dá»¯ liá»‡u.")
         return redirect(next_url)
 
 
@@ -386,7 +386,7 @@ class AccountDeleteView(View):
         user = get_object_or_404(NguoiDung, pk=pk)
         next_url = request.POST.get("next") or reverse("accounts_list")
         user.delete()
-        messages.success(request, "Đã xoá tài khoản.")
+        messages.success(request, "ÄÃ£ xoÃ¡ tÃ i khoáº£n.")
         return redirect(next_url)
 
 

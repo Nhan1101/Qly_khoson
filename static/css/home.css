@@ -1,0 +1,388 @@
+:root {
+  --home-blue: #281faa;
+  --home-blue-dark: #232e66;
+  --home-orange: #f47c20;
+  --home-red: #ef4124;
+  --home-text: #ffffff;
+  --home-panel: #dddddf;
+  --home-panel-border: #cdd0dd;
+  --home-line: #bfc3d3;
+  --home-copy: #232737;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.landing-body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #ffffff 0%, #eef2ff 100%);
+  overflow-x: hidden;
+  color: var(--home-copy);
+}
+
+.landing-shell {
+  width: 100vw;
+  min-height: 100vh;
+  margin: 0;
+  background: #fff;
+}
+
+.landing-topbar {
+  min-height: 120px;
+  display: grid;
+  grid-template-columns: 246px 1fr auto;
+  align-items: center;
+  background: var(--home-blue);
+  color: var(--home-text);
+}
+
+.landing-logo {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.landing-logo img {
+  width: 220px;
+  max-width: 90%;
+  height: auto;
+}
+
+.landing-brand {
+  padding: 0 22px;
+  font-size: clamp(26px, 3vw, 32px);
+  font-weight: 700;
+}
+
+.login-link {
+  padding: 0 36px;
+  color: var(--home-text);
+  text-decoration: none;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.landing-toolbar {
+  display: grid;
+  grid-template-columns: minmax(320px, 490px) auto;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 14px 36px;
+  background: #fff;
+  border-bottom: 1px solid #edf0fa;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  height: 48px;
+  padding: 0 18px 0 54px;
+  border: 1px solid #aeb3c8;
+  border-radius: 10px;
+  outline: none;
+  font: inherit;
+  font-size: 18px;
+}
+
+.search-box input:focus {
+  border-color: var(--home-blue);
+  box-shadow: 0 0 0 4px rgba(40, 31, 170, 0.08);
+}
+
+.search-icon {
+  position: absolute;
+  inset: 0 auto 0 16px;
+  display: grid;
+  place-items: center;
+}
+
+.search-icon svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: #6d7288;
+  stroke-width: 2.2;
+}
+
+.hotline-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: var(--home-red);
+  color: #fff;
+  text-decoration: none;
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 800;
+}
+
+.tracking-results,
+.tracking-feedback {
+  padding: 8px 20px 0;
+}
+
+.tracking-results {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 1fr);
+  gap: 56px;
+  align-items: stretch;
+}
+
+.tracking-card,
+.tracking-feedback {
+  border: 1px solid var(--home-panel-border);
+  border-radius: 24px;
+  background: var(--home-panel);
+}
+
+.tracking-card {
+  padding: 28px 28px 24px;
+  min-height: 196px;
+}
+
+.tracking-card h2,
+.tracking-feedback h2 {
+  margin: 0 0 18px;
+  font-size: clamp(24px, 2vw, 26px);
+  font-weight: 800;
+}
+
+.order-meta {
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.order-meta div {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 12px;
+  align-items: start;
+  font-size: 18px;
+}
+
+.order-meta dt {
+  font-weight: 500;
+}
+
+.order-meta dd {
+  margin: 0;
+}
+
+.timeline-card {
+  padding-left: 42px;
+  padding-right: 28px;
+}
+
+.tracking-timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.tracking-timeline::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--home-line);
+}
+
+.tracking-timeline li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 0;
+  font-size: 18px;
+}
+
+.timeline-dot {
+  position: relative;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #2c2c2c;
+  border-radius: 50%;
+  background: var(--home-panel);
+}
+
+.timeline-label {
+  color: #c43b25;
+  font-weight: 700;
+}
+
+.tracking-timeline time {
+  color: #313649;
+}
+
+.tracking-timeline li.is-current .timeline-dot::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: #111;
+}
+
+.tracking-feedback {
+  margin: 8px 20px 0;
+  padding: 24px 28px;
+}
+
+.tracking-feedback p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.tracking-feedback.is-empty {
+  background: #fff0eb;
+  border-color: #ffcfbf;
+}
+
+.hero {
+  position: relative;
+  margin-top: 16px;
+  background: #33458f;
+}
+
+.hero-poster {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.landing-footer {
+  display: grid;
+  grid-template-columns: 1.7fr 1fr 1fr 1fr;
+  gap: 18px;
+  align-items: center;
+  padding: 14px 24px;
+  background: var(--home-blue);
+  color: #fff;
+  font-size: 16px;
+}
+
+.footer-item {
+  white-space: nowrap;
+}
+
+@media (max-width: 1080px) {
+  .tracking-results {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+@media (max-width: 960px) {
+  .landing-topbar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+    padding-bottom: 18px;
+  }
+
+  .landing-brand,
+  .login-link {
+    padding: 0 18px;
+  }
+
+  .landing-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-footer {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-item {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 640px) {
+  .landing-topbar {
+    min-height: auto;
+    gap: 12px;
+    padding-top: 12px;
+  }
+
+  .landing-logo {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .landing-toolbar,
+  .tracking-results,
+  .tracking-feedback {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .tracking-feedback {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .tracking-card {
+    padding: 22px 18px;
+  }
+
+  .timeline-card {
+    padding-left: 22px;
+  }
+
+  .order-meta div,
+  .tracking-timeline li {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .tracking-timeline::before {
+    left: 8px;
+  }
+
+  .tracking-timeline li {
+    padding-left: 20px;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: 0;
+    top: 12px;
+  }
+
+  .hotline-pill {
+    width: 100%;
+    border-radius: 16px;
+    text-align: center;
+  }
+
+  .landing-footer {
+    padding: 14px 16px 20px;
+  }
+}

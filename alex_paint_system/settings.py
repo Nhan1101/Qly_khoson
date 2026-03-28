@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,10 +36,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'suppliers.apps.SuppliersConfig',
+    'Suppliers.apps.SuppliersConfig',
+    'Home.apps.HomeConfig',
+    'Order.apps.OrderConfig',
+    'Reports.apps.ReportsConfig',
 ]
 
-AUTH_USER_MODEL = 'suppliers.NguoiDung'
+AUTH_USER_MODEL = 'Suppliers.NguoiDung'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

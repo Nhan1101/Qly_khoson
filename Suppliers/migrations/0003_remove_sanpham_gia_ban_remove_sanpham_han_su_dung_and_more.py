@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='nguoidung',
             name='vai_tro',
-            field=models.CharField(choices=[('Admin', 'Ch·ªß c·ª≠a h√†ng'), ('NhanVien', 'Nh√¢n vi√™n kho'), ('GiaoHang', 'Giao h√†ng')], max_length=50),
+            field=models.CharField(choices=[('Admin', 'Ch? c?a h‡ng'), ('NhanVien', 'Nh‚n viÍn kho'), ('GiaoHang', 'Giao h‡ng')], max_length=50),
         ),
         migrations.AlterField(
             model_name='sanpham',

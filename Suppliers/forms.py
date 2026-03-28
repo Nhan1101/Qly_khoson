@@ -5,12 +5,12 @@ from .models import NguoiDung
 
 class AccountForm(forms.ModelForm):
     full_name = forms.CharField(
-        label="Họ tên",
+        label="Há» tÃªn",
         max_length=255,
         widget=forms.TextInput(attrs={"autocomplete": "name"}),
     )
     password = forms.CharField(
-        label="Mật khẩu",
+        label="Máº­t kháº©u",
         required=False,
         strip=False,
         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
@@ -29,13 +29,13 @@ class AccountForm(forms.ModelForm):
     def clean_full_name(self):
         raw = self.cleaned_data.get("full_name", "").strip()
         if not raw and not self.instance.pk:
-            raise forms.ValidationError("Họ tên là trường bắt buộc.")
+            raise forms.ValidationError("Há» tÃªn lÃ  trÆ°á»ng báº¯t buá»™c.")
         return raw
 
     def clean_password(self):
         password = self.cleaned_data.get("password", "")
         if self.require_password and not password:
-            raise forms.ValidationError("Mật khẩu là trường bắt buộc.")
+            raise forms.ValidationError("Máº­t kháº©u lÃ  trÆ°á»ng báº¯t buá»™c.")
         return password
 
     def save(self, commit=True):

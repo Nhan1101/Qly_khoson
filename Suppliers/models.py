@@ -8,9 +8,8 @@ from django.core.exceptions import ValidationError
 # ================= NGƯỜI DÙNG =================
 class NguoiDung(AbstractUser):
     VAI_TRO_CHOICES = (
-        ('Admin', 'Chủ cửa hàng'),
-        ('NhanVien', 'Nhân viên kho'),
-        ('GiaoHang', 'Giao hàng'),
+        ('Admin', 'Admin'),
+        ('NhanVien', 'Nhân viên'),
     )
 
     vai_tro = models.CharField(max_length=50, choices=VAI_TRO_CHOICES)
@@ -22,20 +21,21 @@ class NguoiDung(AbstractUser):
 
 
 # ================= SẢN PHẨM =================
-
 class SanPham(models.Model):
     ma_son = models.CharField(max_length=50, unique=True)
     ten_son = models.CharField(max_length=100)
     loai_son = models.CharField(max_length=50)
+    mau_sac = models.CharField(max_length=50, null=True, blank=True)
     don_vi_tinh = models.CharField(max_length=20)
+
     so_luong_ton = models.IntegerField(default=0)
+
     gia_ban = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     gia_nhap = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     ty_le_loi_nhuan = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
-    @property
-    def gia_ban(self):
-        return self.gia_nhap * (1 + self.ty_le_loi_nhuan / 100)
+    han_su_dung = models.DateField(null=True, blank=True)
+    ngay_tao = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.ma_son} - {self.ten_son}"
@@ -49,6 +49,7 @@ class SanPham(models.Model):
     def muc_toi_thieu(self):
         ton_kho = getattr(self, "tonkho", None)
         return ton_kho.muc_toi_thieu if ton_kho else 0
+
 
 # ================= NHÀ CUNG CẤP =================
 class NhaCungCap(models.Model):

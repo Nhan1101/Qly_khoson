@@ -1,0 +1,98 @@
+﻿{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sơn Alex - Danh sách phiếu xuất{% endblock %}
+
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/pages/delivery_note_list.css' %}">
+{% endblock %}
+
+{% block content %}
+<section
+  class="delivery-page"
+  data-detail-url="{% url 'delivery-note-detail' %}"
+  data-edit-url="{% url 'delivery-note-edit' %}"
+>
+  <div class="delivery-filter-card">
+    <div class="delivery-filter-row">
+      <span class="delivery-filter-label">Mã phiếu</span>
+      <input class="delivery-filter-input delivery-input-sm" type="text" placeholder="">
+
+      <span class="delivery-filter-label" style="margin-left: 8px;">Nguồn nhận</span>
+      <input class="delivery-filter-input delivery-input-lg" type="text" placeholder="">
+      <select class="delivery-filter-input delivery-select-arrow">
+        <option>▼</option>
+      </select>
+
+      <button class="delivery-btn-search" type="button">
+        Tìm kiếm <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+
+    <div class="delivery-filter-row">
+      <span class="delivery-filter-label">Tình trạng</span>
+      <select class="delivery-filter-input delivery-input-md">
+        <option value=""></option>
+        <option>Chờ duyệt</option>
+        <option>Đã duyệt</option>
+      </select>
+
+      <span class="delivery-filter-label" style="margin-left: 8px;">Từ ngày</span>
+      <input class="delivery-filter-input delivery-input-date" type="date">
+
+      <span class="delivery-filter-label">Đến ngày</span>
+      <input class="delivery-filter-input delivery-input-date" type="date">
+    </div>
+  </div>
+
+  <div class="delivery-action-row">
+    <a class="delivery-btn-add" href="{% url 'delivery-order-create' %}"><i class="fa-solid fa-plus"></i> Tạo đơn giao hàng</a>
+    <a class="delivery-btn-add" href="{% url 'delivery-note-create' %}"><i class="fa-solid fa-plus"></i> Tạo phiếu xuất kho</a>
+  </div>
+
+  <div class="delivery-table-wrap">
+    <div class="delivery-table-scroll">
+      <table class="delivery-table">
+        <thead>
+          <tr>
+            <th style="width: 56px;">STT</th>
+            <th style="width: 120px;">Mã phiếu</th>
+            <th>Nguồn nhận</th>
+            <th style="width: 150px;">
+              Giá trị
+              <span class="delivery-sort-icon" aria-hidden="true"><i class="fa-solid fa-caret-up"></i><i class="fa-solid fa-caret-down"></i></span>
+            </th>
+            <th style="width: 170px;">
+              Thời gian
+              <span class="delivery-sort-icon" aria-hidden="true"><i class="fa-solid fa-caret-up"></i><i class="fa-solid fa-caret-down"></i></span>
+            </th>
+            <th style="width: 120px;">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="delivery-note-table-body"></tbody>
+      </table>
+    </div>
+
+    <div class="delivery-pagination">
+      <button class="delivery-page-btn" type="button" aria-label="Trang trước">
+        <span class="material-icons-outlined" style="font-size: 18px;">chevron_left</span>
+      </button>
+      <button class="delivery-page-btn active" type="button">1</button>
+      <button class="delivery-page-btn" type="button">2</button>
+      <button class="delivery-page-btn" type="button">3</button>
+      <span class="delivery-page-ellipsis">...</span>
+      <button class="delivery-page-btn" type="button" aria-label="Trang sau">
+        <span class="material-icons-outlined" style="font-size: 18px;">chevron_right</span>
+      </button>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pages/delivery_note_list.js' %}" defer></script>
+{% endblock %}
+
+

@@ -1,0 +1,95 @@
+﻿{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sơn Alex - Xem phiếu xuất kho{% endblock %}
+
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/pages/delivery_note_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="delivery-view-page">
+  <div class="delivery-view-shell">
+    <div class="delivery-view-card">
+      <a class="delivery-view-close" href="{% url 'delivery-note-list' %}">X</a>
+      <h2 class="delivery-view-title">PHIẾU XUẤT KHO</h2>
+
+      <section class="delivery-view-section">
+        <p class="delivery-view-section-title">Thông tin chung</p>
+        <div class="delivery-view-info-grid">
+          <div class="delivery-view-info-col">
+            <div class="delivery-view-field">
+              <span class="delivery-view-label">Nguồn nhận</span>
+              <div id="delivery-view-nguon-nhan" class="delivery-view-value"></div>
+            </div>
+            <div class="delivery-view-field">
+              <span class="delivery-view-label">Mã đơn</span>
+              <div id="delivery-view-ma-don" class="delivery-view-value"></div>
+            </div>
+            <div class="delivery-view-field">
+              <span class="delivery-view-label">Số điện thoại</span>
+              <div id="delivery-view-so-dien-thoai" class="delivery-view-value"></div>
+            </div>
+            <div class="delivery-view-field">
+              <span class="delivery-view-label">Địa chỉ</span>
+              <div id="delivery-view-dia-chi" class="delivery-view-value"></div>
+            </div>
+          </div>
+
+          <div class="delivery-view-info-col">
+            <div class="delivery-view-field">
+              <span class="delivery-view-label">Mã phiếu</span>
+              <div id="delivery-view-ma-phieu" class="delivery-view-value"></div>
+            </div>
+            <div class="delivery-view-field">
+              <span class="delivery-view-label">Ngày xuất</span>
+              <div id="delivery-view-ngay-xuat" class="delivery-view-value"></div>
+            </div>
+            <div class="delivery-view-field">
+              <span class="delivery-view-label">Dự kiến giao</span>
+              <div id="delivery-view-du-kien-giao" class="delivery-view-value"></div>
+            </div>
+            <div class="delivery-view-field">
+              <span class="delivery-view-label">Lý do xuất</span>
+              <div id="delivery-view-ly-do-xuat" class="delivery-view-value"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <h3 class="delivery-view-products-title">Danh sách hàng hóa</h3>
+      <div class="delivery-view-table-wrap">
+        <table class="delivery-view-table">
+          <thead>
+            <tr>
+              <th style="width: 44px;">STT</th>
+              <th class="text-left">Tên hàng hóa</th>
+              <th style="width: 96px;">Mã hàng</th>
+              <th style="width: 74px;">Đơn vị tính</th>
+              <th style="width: 110px;">Đơn giá</th>
+              <th style="width: 74px;">Số lượng</th>
+              <th style="width: 120px;">Thành tiền</th>
+            </tr>
+          </thead>
+          <tbody id="delivery-view-items"></tbody>
+        </table>
+      </div>
+
+      <div class="delivery-view-total-row">
+        <div class="delivery-view-total-box">
+          <span class="delivery-view-total-label">TỔNG TIỀN:</span>
+          <span id="delivery-view-tong-tien" class="delivery-view-total-value">0 đ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pages/delivery_note_detail.js' %}" defer></script>
+{% endblock %}
+
+

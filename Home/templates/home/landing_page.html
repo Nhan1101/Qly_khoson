@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Trang chủ ALEX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="{% static 'js/home.js' %}" defer></script>
+  </head>
+  <body class="landing-body">
+    <div class="landing-shell">
+      <header class="landing-topbar">
+        <a class="landing-logo" href="/" aria-label="ALEX Home">
+          <img src="{{ logo_url }}" alt="ALEX">
+        </a>
+        <div class="landing-brand">Sơn Alex sơn để Thành Công</div>
+        <a class="login-link" href="{% url 'login-page' %}">Đăng nhập</a>
+      </header>
+
+      <section class="landing-toolbar">
+        <form class="search-box" action="{% url 'landing-page' %}" method="get">
+          <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M20 20l-4.2-4.2"></path>
+            </svg>
+          </span>
+          <input
+            type="search"
+            name="phone"
+            inputmode="numeric"
+            placeholder="Nhập số điện thoại khách hàng"
+            value="{{ searched_phone }}"
+            aria-label="Số điện thoại khách hàng"
+          >
+        </form>
+        <a class="hotline-pill" href="tel:1900988967">HOTLINE: 1900 98 89 67 / 0961 662 268</a>
+      </section>
+
+      {% if tracking_result %}
+        <section class="tracking-results">
+          <article class="tracking-card order-card">
+            <h2>Thông tin đơn hàng</h2>
+            <dl class="order-meta">
+              <div>
+                <dt>Mã phiếu gửi:</dt>
+                <dd>{{ tracking_result.tracking_code }}</dd>
+              </div>
+              <div>
+                <dt>Người nhận:</dt>
+                <dd>{{ tracking_result.recipient_name }} - {{ tracking_result.recipient_address }}</dd>
+              </div>
+              <div>
+                <dt>Trạng thái:</dt>
+                <dd>{{ tracking_result.status }}</dd>
+              </div>
+              <div>
+                <dt>Ngày tạo:</dt>
+                <dd>{{ tracking_result.created_date }}</dd>
+              </div>
+              <div>
+                <dt>Ngày nhận hàng dự kiến:</dt>
+                <dd>{{ tracking_result.estimated_delivery_date }}</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="tracking-card timeline-card">
+            <ol class="tracking-timeline">
+              {% for event in tracking_result.timeline %}
+                <li class="{% if event.is_current %}is-current{% endif %}">
+                  <span class="timeline-dot" aria-hidden="true"></span>
+                  <span class="timeline-label">{{ event.label }}</span>
+                  <time datetime="{{ event.time }}">{{ event.time }}</time>
+                </li>
+              {% endfor %}
+            </ol>
+          </article>
+        </section>
+      {% elif lookup_not_found %}
+        <section class="tracking-feedback is-empty">
+          <h2>Không tìm thấy đơn hàng</h2>
+          <p>Chưa có dữ liệu giao hàng cho số điện thoại {{ searched_phone }}.</p>
+        </section>
+      {% else %}
+        <section class="tracking-feedback">
+          <h2>Tra cứu đơn hàng nhanh</h2>
+          <p>Nhập số điện thoại khách hàng để xem thông tin đơn hàng và tiến trình giao hàng.</p>
+        </section>
+      {% endif %}
+
+      <main class="hero">
+        <img class="hero-poster" src="{{ poster_url }}" alt="Poster Sơn Alex">
+      </main>
+
+      <footer class="landing-footer">
+        <div class="footer-item">Địa chỉ : Chợ An Lỗ, phường Phong Thái, tp Huế</div>
+        <div class="footer-item">Website : https://alex.com.vn</div>
+        <div class="footer-item">Email : lienhe@alex.com.vn</div>
+        <div class="footer-item">© 2026 Bản quyền alex.com.vn</div>
+      </footer>
+    </div>
+  </body>
+</html>
