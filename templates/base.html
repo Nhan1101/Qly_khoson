@@ -10,6 +10,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <script src="{% static 'js/base.js' %}" defer></script>
+    <style>
+      .menu-group a.menu-title, .menu-items a {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+        width: 100%;
+      }
+      .menu-items li a {
+        padding: 8px 16px;
+        transition: background 0.2s;
+      }
+      .menu-items li a:hover {
+        background-color: #f0f2f5;
+      }
+      /* Đảm bảo sidebar không bị tràn */
+      .sidebar {
+        overflow-y: auto;
+      }
+    </style>
   </head>
   <body>
     <header class="topbar">
@@ -50,35 +69,33 @@
         <div class="divider"></div>
 
         <nav class="menu">
-          <div class="menu-group is-open" data-collapsible>
-            <button class="menu-title" type="button">
+          <div class="menu-group is-open">
+            <div class="menu-title">
               <span class="menu-icon" aria-hidden="true"></span>
               Xuất - nhập hàng
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            </div>
             <ul class="menu-items">
               <li><a href="#">Xuất kho</a></li>
               <li><a href="#">Phiếu xuất kho</a></li>
               <li><a href="#">Đơn đặt hàng KH</a></li>
-              <li><a href="#">Nhập kho</a></li>
-              <li><a href="#">Phiếu nhập kho</a></li>
-              <li><a href="#">Đơn đặt hàng NCC</a></li>
+              <li><a href="{% url 'nhap_kho' %}">Nhập kho</a></li>
+              <li><a href="{% url 'nhap_kho' %}">Phiếu nhập kho</a></li>
+              <li><a href="{% url 'ds_don_dat_hang_ncc' %}">Đơn đặt hàng NCC</a></li>
             </ul>
           </div>
 
           <div class="menu-group">
-            <button class="menu-title" type="button">
+            <a href="{% url 'danh_sach_ncc' %}" class="menu-title">
               <span class="menu-icon" aria-hidden="true"></span>
               Quản lý Nhà Cung Cấp
-            </button>
+            </a>
           </div>
 
-          <div class="menu-group is-open" data-collapsible>
-            <button class="menu-title" type="button">
+          <div class="menu-group is-open">
+            <div class="menu-title">
               <span class="menu-icon" aria-hidden="true"></span>
               Quản lý sản phẩm
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            </div>
             <ul class="menu-items">
               <li><a href="#">Danh mục sản phẩm</a></li>
               <li><a href="#">Cảnh báo tồn kho</a></li>
@@ -86,12 +103,11 @@
             </ul>
           </div>
 
-          <div class="menu-group is-open" data-collapsible>
-            <button class="menu-title" type="button">
+          <div class="menu-group is-open">
+            <div class="menu-title">
               <span class="menu-icon" aria-hidden="true"></span>
               Báo cáo thống kê
-              <span class="chevron" aria-hidden="true"></span>
-            </button>
+            </div>
             <ul class="menu-items">
               <li><a href="#">Báo cáo nhập kho</a></li>
               <li><a href="#">Báo cáo xuất kho</a></li>
@@ -100,32 +116,34 @@
           </div>
 
           <div class="menu-group">
-            <button class="menu-title" type="button">
+            <div class="menu-title">
               <span class="menu-icon" aria-hidden="true"></span>
               Quản lý Tài khoản
-            </button>
+            </div>
           </div>
 
           <div class="menu-group">
-            <button class="menu-title" type="button">
+            <div class="menu-title">
               <span class="menu-icon" aria-hidden="true"></span>
               Trạng thái giao hàng
-            </button>
+            </div>
           </div>
 
           <div class="menu-group">
-            <button class="menu-title" type="button">
+            <div class="menu-title">
               <span class="menu-icon" aria-hidden="true"></span>
               Kiểm kê kho
-            </button>
+            </div>
           </div>
         </nav>
       </aside>
 
       <main class="main">
-        {% block content %}
-        <div class="content-card">Vui lòng chọn nghiệp vụ để thực hiện</div>
-        {% endblock %}
+        <div class="container-fluid">
+          {% block content %}
+          <div class="content-card">Vui lòng chọn nghiệp vụ để thực hiện</div>
+          {% endblock %}
+        </div>
       </main>
     </div>
   </body>

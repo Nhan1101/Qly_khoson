@@ -1,25 +1,17 @@
-"""
-URL configuration for alex_paint_system project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='base.html'), name='home'),
+    path('nhap-kho/', TemplateView.as_view(template_name='nhap_kho.html'), name='nhap_kho'),
+    path('tao-phieu-nhap/', TemplateView.as_view(template_name='tao_phieu_nhap.html'), name='tao_phieu_nhap'),
+    path('sua-phieu-nhap/', TemplateView.as_view(template_name='sua_phieu_nhap.html'), name='sua_phieu_nhap'),
+    path('xem-phieu/', TemplateView.as_view(template_name='xem_chi_tiet_phieu.html'), name='xem_phieu'),
+    path('ds-don-dat-hang-ncc/', TemplateView.as_view(template_name='ds_don_dat_hang_ncc.html'), name='ds_don_dat_hang_ncc'),
+    path('tao-don-dat-hang/', TemplateView.as_view(template_name='tao_don_dat_hang.html'), name='tao_don_dat_hang'),
+    path('chi-tiet-don-hang/', TemplateView.as_view(template_name='chi_tiet_don_dat_hang.html'), name='chi_tiet_don_dat_hang'),
+    path('danh-sach-ncc/', TemplateView.as_view(template_name='dsncc.html'), name='danh_sach_ncc'),
     path('admin/', admin.site.urls),
-    path('suppliers/', include('suppliers.urls')),
+    path('suppliers/', include('Suppliers.urls')),
 ]
