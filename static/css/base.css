@@ -166,15 +166,12 @@ body {
   gap: 10px;
   padding: 8px 10px;
   font-weight: 600;
-  font-size: 20px;
   color: var(--blue-900);
   cursor: pointer;
   text-decoration: none;
 }
 
 .menu-title.is-active {
-  background: #eef0ff;
-  border-radius: 8px;
 }
 
 .menu-icon {

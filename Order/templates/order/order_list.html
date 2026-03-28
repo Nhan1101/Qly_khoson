@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Trạng thái giao hàng{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/order.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="order-screen">
+  <div class="order-board">
+    <table class="order-table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Mã Đơn</th>
+          <th>Người Nhận</th>
+          <th class="sortable">Giá trị <span class="sort-mark">⇅</span></th>
+          <th class="sortable">Thời gian <span class="sort-mark">⇅</span></th>
+          <th>Tình trạng</th>
+          <th>Thao tác</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in page_obj %}
+        <tr>
+          <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
+          <td>{{ order.ma_don }}</td>
+          <td>{{ order.nguoi_nhan }}</td>
+          <td>{{ order.gia_tri|floatformat:0 }}</td>
+          <td>{{ order.thoi_gian|date:"d/m/Y H:i" }}</td>
+          <td>
+            <span class="status-pill is-{{ order.status_css_class }}">{{ order.get_tinh_trang_display }}</span>
+          </td>
+          <td>
+            <button
+              class="action-btn"
+              type="button"
+              aria-label="Sửa đơn hàng {{ order.ma_don }}"
+              data-open-modal
+              data-action="{% url 'order-update' order.pk %}"
+              data-ma-don="{{ order.ma_don }}"
+              data-nguoi-nhan="{{ order.nguoi_nhan }}"
+              data-gia-tri="{{ order.gia_tri|floatformat:0 }}"
+              data-thoi-gian="{{ order.thoi_gian|date:'Y-m-d\\TH:i' }}"
+              data-tinh-trang="{{ order.tinh_trang }}"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75L3 17.25zm14.71-9.04a1.003 1.003 0 0 0 0-1.42l-2.5-2.5a1.003 1.003 0 0 0-1.42 0L11.96 6.1l3.75 3.75 1.99-1.64z"/>
+              </svg>
+            </button>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td class="order-empty" colspan="7">Chưa có đơn hàng để hiển thị.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+      <a class="page-btn" href="?page={{ page_obj.previous_page_number }}" aria-label="Trang trước">&#10094;</a>
+      {% else %}
+      <span class="page-btn" aria-hidden="true">&#10094;</span>
+      {% endif %}
+
+      {% for page_number in page_obj.paginator.page_range %}
+        {% if page_number == page_obj.number %}
+        <span class="page-number is-active">{{ page_number }}</span>
+        {% else %}
+        <a class="page-number" href="?page={{ page_number }}">{{ page_number }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+      <a class="page-btn" href="?page={{ page_obj.next_page_number }}" aria-label="Trang sau">&#10095;</a>
+      {% else %}
+      <span class="page-btn" aria-hidden="true">&#10095;</span>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<div class="modal-backdrop{% if open_modal_on_load %} is-open{% endif %}" data-order-modal data-open-on-load="{% if open_modal_on_load %}true{% else %}false{% endif %}">
+  <div class="order-modal" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
+    <button class="modal-close" type="button" aria-label="Đóng" data-close-modal>&times;</button>
+    <h2 id="order-modal-title" class="sr-only">Chỉnh sửa đơn hàng</h2>
+
+    <form method="post" action="{% if editing_order %}{% url 'order-update' editing_order.pk %}{% endif %}">
+      {% csrf_token %}
+      {% if order_form.non_field_errors %}
+      <div class="form-errors">{{ order_form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="modal-grid">
+        <div class="modal-column">
+          <div class="field-row">
+            <label for="{{ order_form.ma_don.id_for_label }}">Mã đơn</label>
+            <div>
+              {{ order_form.ma_don }}
+              {% if order_form.ma_don.errors %}<div class="field-errors">{{ order_form.ma_don.errors }}</div>{% endif %}
+            </div>
+          </div>
+          <div class="field-row">
+            <label for="{{ order_form.nguoi_nhan.id_for_label }}">Người nhận</label>
+            <div>
+              {{ order_form.nguoi_nhan }}
+              {% if order_form.nguoi_nhan.errors %}<div class="field-errors">{{ order_form.nguoi_nhan.errors }}</div>{% endif %}
+            </div>
+          </div>
+          <div class="field-row">
+            <label for="{{ order_form.gia_tri.id_for_label }}">Giá trị</label>
+            <div>
+              {{ order_form.gia_tri }}
+              {% if order_form.gia_tri.errors %}<div class="field-errors">{{ order_form.gia_tri.errors }}</div>{% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-column">
+          <div class="field-row">
+            <label for="{{ order_form.thoi_gian.id_for_label }}">Thời gian</label>
+            <div>
+              {{ order_form.thoi_gian }}
+              {% if order_form.thoi_gian.errors %}<div class="field-errors">{{ order_form.thoi_gian.errors }}</div>{% endif %}
+            </div>
+          </div>
+          <div class="field-row">
+            <label for="{{ order_form.tinh_trang.id_for_label }}">Tình trạng</label>
+            <div>
+              {{ order_form.tinh_trang }}
+              {% if order_form.tinh_trang.errors %}<div class="field-errors">{{ order_form.tinh_trang.errors }}</div>{% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="save-btn" type="submit">Lưu</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/order.js' %}" defer></script>
+{% endblock %}
