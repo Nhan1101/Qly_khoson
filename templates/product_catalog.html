@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sơn Alex - Danh mục sản phẩm{% endblock %}
+
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/pages/product_catalog.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="product-page">
+  <div class="product-filter-card">
+    <div class="product-filter-row">
+      <div class="product-field product-field-sm">
+        <label class="product-field-label" for="product-code">Mã hàng hóa</label>
+        <input id="product-code" class="product-field-input" type="text">
+      </div>
+
+      <div class="product-field product-field-lg">
+        <label class="product-field-label" for="product-name">Tên hàng hóa</label>
+        <input id="product-name" class="product-field-input" type="text">
+      </div>
+
+      <button class="product-search-btn" type="button">
+        Tìm kiếm <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </div>
+
+    <div class="product-filter-row">
+      <div class="product-field product-field-sm">
+        <label class="product-field-label" for="product-from-date">Từ ngày</label>
+        <div class="product-date-wrap">
+          <input id="product-from-date" class="product-field-input" type="date">
+          <span class="material-icons-outlined product-date-icon" aria-hidden="true">calendar_month</span>
+        </div>
+      </div>
+
+      <div class="product-field product-field-lg">
+        <label class="product-field-label" for="product-to-date">Đến ngày</label>
+        <div class="product-date-wrap">
+          <input id="product-to-date" class="product-field-input" type="date">
+          <span class="material-icons-outlined product-date-icon" aria-hidden="true">calendar_month</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="product-actions">
+    <button class="product-create-btn" type="button">
+      <i class="fa-solid fa-plus"></i> Tạo sản phẩm
+    </button>
+  </div>
+
+  <div class="product-table-card">
+    <div class="product-table-scroll">
+      <table class="product-table">
+        <thead>
+          <tr>
+            <th style="width: 58px;">STT</th>
+            <th style="width: 220px;">Tên hàng</th>
+            <th style="width: 110px;">Mã hàng</th>
+            <th style="width: 190px;">Loại sơn</th>
+            <th style="width: 110px;">Đơn vị tính</th>
+            <th style="width: 95px;">Tồn kho</th>
+            <th style="width: 130px;">Giá bán</th>
+            <th style="width: 130px;">Giá vốn</th>
+            <th style="width: 120px;">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="product-catalog-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="product-pagination">
+    <button class="product-page-btn" type="button" aria-label="Trang trước">
+      <span class="material-icons-outlined" style="font-size: 18px;">chevron_left</span>
+    </button>
+    <button class="product-page-btn active" type="button">1</button>
+    <button class="product-page-btn" type="button">2</button>
+    <button class="product-page-btn" type="button">3</button>
+    <span class="product-page-dots">...</span>
+    <button class="product-page-btn" type="button" aria-label="Trang sau">
+      <span class="material-icons-outlined" style="font-size: 18px;">chevron_right</span>
+    </button>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pages/product_catalog.js' %}" defer></script>
+{% endblock %}

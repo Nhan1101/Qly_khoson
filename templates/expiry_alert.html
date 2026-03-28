@@ -1,0 +1,64 @@
+﻿{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Sơn Alex - Xem cảnh báo hạn sử dụng{% endblock %}
+
+{% block extra_head %}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link rel="stylesheet" href="{% static 'css/pages/expiry_alert.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="expiry-page">
+  <div class="expiry-card">
+
+    <div class="expiry-card-header">
+      <span class="expiry-card-header-title">CẢNH BÁO HẠN SỬ DỤNG</span>
+    </div>
+
+    <div class="expiry-date-row">
+      <span>Ngày hiện tại:</span>
+      <input class="expiry-date-input" type="text" value="05/02/2026">
+      <i class="fa-regular fa-calendar"></i>
+    </div>
+
+    <div class="expiry-table-wrap">
+      <table class="expiry-table">
+        <thead>
+          <tr>
+            <th style="width: 55px;">STT</th>
+            <th>Tên sản phẩm</th>
+            <th style="width: 140px;">Hạn sử dụng</th>
+            <th style="width: 160px;">Mức cảnh báo</th>
+            <th style="width: 140px;">Tình trạng</th>
+          </tr>
+        </thead>
+        <tbody id="expiry-table-body"></tbody>
+      </table>
+
+      <div class="expiry-pagination">
+        <button class="expiry-page-btn">
+          <span class="material-icons-outlined">chevron_left</span>
+        </button>
+
+        <button class="expiry-page-btn active">1</button>
+        <button class="expiry-page-btn">2</button>
+        <button class="expiry-page-btn">3</button>
+
+        <button class="expiry-page-btn">
+          <span class="material-icons-outlined">chevron_right</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pages/expiry_alert.js' %}" defer></script>
+{% endblock %}
+
+
