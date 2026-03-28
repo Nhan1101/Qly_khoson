@@ -1,0 +1,319 @@
+﻿{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Danh mục sản phẩm{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{% block menu_products_active %}is-active{% endblock %}
+{% block menu_products_link_active %}is-active{% endblock %}
+
+{% block content %}
+  <section class="products" data-delete-success="{{ delete_success|yesno:'1,0' }}" data-next-code="{{ next_code }}">
+
+    <div class="search-card">
+      <form class="search-grid" method="get" action="">
+        <label>
+          <span>Mã</span>
+          <input type="text" name="ma_son" placeholder="SP_01" value="{{ request.GET.ma_son|default:'' }}">
+        </label>
+        <label>
+          <span>Tên sản phẩm</span>
+          <input type="text" name="ten_son" placeholder="Sơn Alex" value="{{ request.GET.ten_son|default:'' }}">
+        </label>
+        <label>
+          <span>Loại sơn</span>
+          <input type="text" name="loai_son" placeholder="Nội thất" value="{{ request.GET.loai_son|default:'' }}">
+        </label>
+        <label>
+          <span>Màu sắc</span>
+          <input type="text" name="mau_sac" placeholder="Trắng" value="{{ request.GET.mau_sac|default:'' }}">
+        </label>
+        <label>
+          <span>Đơn vị tính</span>
+          <input type="text" name="don_vi_tinh" placeholder="Thùng" value="{{ request.GET.don_vi_tinh|default:'' }}">
+        </label>
+        <div class="search-actions">
+          <button class="btn-primary" type="submit">Tìm kiếm</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn-secondary js-open-modal" type="button" data-modal-target="product-modal" data-mode="create">+ Thêm sản phẩm</button>
+    </div>
+
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Mã</th>
+            <th>Tên sản phẩm</th>
+            <th>Loại sơn</th>
+            <th>Màu sắc</th>
+            <th>ĐVT</th>
+            <th>Giá nhập</th>
+            <th>% Lợi nhuận</th>
+            <th>Giá bán</th>
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for product in products %}
+          <tr data-muc-toi-thieu="{{ product.muc_toi_thieu }}">
+            <td>{{ product.ma_son }}</td>
+            <td>{{ product.ten_son }}</td>
+            <td>{{ product.loai_son }}</td>
+            <td>{{ product.mau_sac|default_if_none:"" }}</td>
+            <td>{{ product.don_vi_tinh }}</td>
+            <td>{{ product.gia_nhap|floatformat:2 }}</td>
+            <td>{{ product.ty_le_loi_nhuan|floatformat:2 }}</td>
+            <td>{{ product.gia_ban_tinh|floatformat:2 }}</td>
+            <td class="actions">
+              <button class="icon-edit js-open-modal" type="button" aria-label="Sửa" data-modal-target="product-modal" data-mode="edit" data-update-url="{% url 'products_update' product.id %}"></button>
+              <button class="icon-delete js-open-modal" type="button" aria-label="Xóa" data-modal-target="delete-modal" data-delete-url="{% url 'products_delete' product.id %}"></button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="9" class="empty">Chưa có dữ liệu sản phẩm.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if is_paginated %}
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Trang trước">&laquo;</a>
+      {% else %}
+        <span class="page-link is-disabled" aria-hidden="true">&laquo;</span>
+      {% endif %}
+      <span class="page-info">Trang {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Trang sau">&raquo;</a>
+      {% else %}
+        <span class="page-link is-disabled" aria-hidden="true">&raquo;</span>
+      {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="modal-backdrop is-hidden" id="product-modal" data-create-url="{% url 'products_create' %}">
+      <div class="modal-card">
+        <form class="modal-form" method="post" action="{% url 'products_create' %}">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h3 class="modal-title" data-modal-title>Thêm sản phẩm</h3>
+            <button class="modal-close js-close-modal" type="button" aria-label="Đóng">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-grid">
+              <label>
+                <span>Mã</span>
+                <input type="text" name="ma_son" placeholder="SP_01" value="{{ next_code }}">
+              </label>
+              <label>
+                <span>Tên sản phẩm</span>
+                <input type="text" name="ten_son" placeholder="Sơn Alex" required>
+              </label>
+              <label>
+                <span>Loại sơn</span>
+                <input type="text" name="loai_son" placeholder="Nội thất" required>
+              </label>
+              <label>
+                <span>Màu sắc</span>
+                <input type="text" name="mau_sac" placeholder="Trắng">
+              </label>
+              <label>
+                <span>Đơn vị tính</span>
+                <input type="text" name="don_vi_tinh" placeholder="Thùng" required>
+              </label>
+              <label>
+                <span>Giá nhập</span>
+                <input type="number" step="0.01" name="gia_nhap" placeholder="0">
+              </label>
+              <label>
+                <span>Tỷ lệ lợi nhuận (%)</span>
+                <input type="number" step="0.01" name="ty_le_loi_nhuan" placeholder="0">
+              </label>
+              <label>
+                <span>Mức tối thiểu</span>
+                <input type="number" step="1" name="muc_toi_thieu" placeholder="0">
+              </label>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-save" type="submit">Lưu</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-backdrop is-hidden" id="delete-modal">
+      <div class="modal-card modal-confirm">
+        <form class="modal-form" method="post" action="">
+          {% csrf_token %}
+          <div class="modal-header">
+            <h3 class="modal-title">Bạn chắc chắn muốn xóa này?</h3>
+            <button class="modal-close js-close-modal" type="button" aria-label="Đóng">&times;</button>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-confirm" type="submit">Đồng ý</button>
+            <button class="btn-cancel js-close-modal" type="button">Hủy</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal-backdrop is-hidden" id="delete-success-modal">
+      <div class="modal-card modal-success">
+        <div class="modal-header">
+          <h3 class="modal-title">Xóa thành công</h3>
+          <button class="modal-close js-close-modal" type="button" aria-label="Đóng">&times;</button>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-save js-close-modal" type="button">OK</button>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+  <script>
+    const modals = {
+      product: document.getElementById("product-modal"),
+      delete: document.getElementById("delete-modal"),
+      deleteSuccess: document.getElementById("delete-success-modal"),
+    };
+
+    const productForm = modals.product?.querySelector("form");
+    const deleteForm = modals.delete?.querySelector("form");
+    const productsSection = document.querySelector(".products");
+    const getCookie = (name) => {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) {
+        return parts.pop().split(";").shift();
+      }
+      return "";
+    };
+
+    const ensureCsrfTokens = () => {
+      const token = getCookie("csrftoken");
+      if (!token) {
+        return;
+      }
+      document.querySelectorAll("form[method='post']").forEach((form) => {
+        let input = form.querySelector("input[name='csrfmiddlewaretoken']");
+        if (!input) {
+          input = document.createElement("input");
+          input.type = "hidden";
+          input.name = "csrfmiddlewaretoken";
+          form.appendChild(input);
+        }
+        input.value = token;
+      });
+    };
+
+    const closeModal = (modal) => {
+      if (modal) {
+        modal.classList.remove("is-open");
+        modal.classList.add("is-hidden");
+      }
+    };
+
+    const openModal = (modal) => {
+      if (modal) {
+        modal.classList.remove("is-hidden");
+        modal.classList.add("is-open");
+      }
+    };
+
+    const fillProductModal = (row) => {
+      if (!row) {
+        return;
+      }
+      const cells = row.querySelectorAll("td");
+      if (cells.length < 8) {
+        return;
+      }
+      const map = {
+        ma_son: cells[0].textContent.trim(),
+        ten_son: cells[1].textContent.trim(),
+        loai_son: cells[2].textContent.trim(),
+        mau_sac: cells[3].textContent.trim(),
+        don_vi_tinh: cells[4].textContent.trim(),
+        gia_nhap: cells[5].textContent.trim(),
+        ty_le_loi_nhuan: cells[6].textContent.trim(),
+        muc_toi_thieu: row.dataset.mucToiThieu || "",
+      };
+      modals.product.querySelectorAll("input").forEach((input) => {
+        input.value = map[input.name] || "";
+      });
+    };
+
+    document.addEventListener("click", (event) => {
+      ensureCsrfTokens();
+      const openButton = event.target.closest(".js-open-modal");
+      if (openButton) {
+        const target = openButton.dataset.modalTarget;
+        if (target === "product-modal") {
+          const mode = openButton.dataset.mode;
+          const title = modals.product.querySelector("[data-modal-title]");
+          if (mode === "edit") {
+            title.textContent = "Sửa sản phẩm";
+            fillProductModal(openButton.closest("tr"));
+            if (productForm && openButton.dataset.updateUrl) {
+              productForm.action = openButton.dataset.updateUrl;
+            }
+          } else {
+            title.textContent = "Thêm sản phẩm";
+            modals.product.querySelectorAll("input").forEach((input) => {
+              input.value = "";
+            });
+            const codeInput = modals.product.querySelector("input[name='ma_son']");
+            if (codeInput && productsSection?.dataset.nextCode) {
+              codeInput.value = productsSection.dataset.nextCode;
+            }
+            if (productForm && modals.product.dataset.createUrl) {
+              productForm.action = modals.product.dataset.createUrl;
+            }
+          }
+          openModal(modals.product);
+        } else if (target === "delete-modal") {
+          if (deleteForm && openButton.dataset.deleteUrl) {
+            deleteForm.action = openButton.dataset.deleteUrl;
+          }
+          openModal(modals.delete);
+        }
+        return;
+      }
+
+      if (event.target.classList.contains("js-close-modal")) {
+        closeModal(event.target.closest(".modal-backdrop"));
+      }
+
+      if (event.target.classList.contains("modal-backdrop")) {
+        closeModal(event.target);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        Object.values(modals).forEach((modal) => closeModal(modal));
+      }
+    });
+
+    if (productsSection?.dataset.deleteSuccess === "1") {
+      openModal(modals.deleteSuccess);
+    }
+
+    ensureCsrfTokens();
+  </script>
+{% endblock %}
+
+

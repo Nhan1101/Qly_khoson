@@ -75,13 +75,13 @@
           </div>
 
           <div class="menu-group is-open" data-collapsible>
-            <button class="menu-title" type="button">
+            <button class="menu-title {% block menu_products_active %}{% endblock %}" type="button">
               <span class="menu-icon" aria-hidden="true"></span>
               Quản lý sản phẩm
               <span class="chevron" aria-hidden="true"></span>
             </button>
             <ul class="menu-items">
-              <li><a href="#">Danh mục sản phẩm</a></li>
+              <li><a class="{% block menu_products_link_active %}{% endblock %}" href="{% url 'products_list' %}">Danh mục sản phẩm</a></li>
               <li><a href="#">Cảnh báo tồn kho</a></li>
               <li><a href="#">Cảnh báo hạn sử dụng</a></li>
             </ul>
