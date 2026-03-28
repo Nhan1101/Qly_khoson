@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Báo cáo xuất kho{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/export-report.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="report-screen">
+  <div class="report-panel">
+    <div class="report-header">
+      <h1 class="report-title">XUẤT KHO</h1>
+      <form class="report-filters" method="get">
+        <span class="report-filter-label">Bắt đầu</span>
+        <label class="date-field">
+          <input id="start-date" name="start_date" type="date" value="{{ start_date|date:'Y-m-d' }}">
+        </label>
+        <span class="report-filter-label">Kết thúc</span>
+        <label class="date-field">
+          <input id="end-date" name="end_date" type="date" value="{{ end_date|date:'Y-m-d' }}">
+        </label>
+        <button class="filter-submit" type="submit">Lọc</button>
+      </form>
+    </div>
+
+    <div class="report-content">
+      <div class="report-chart-block">
+        <div class="section-label">Tỉ lệ xuất kho</div>
+        <div class="chart-layout">
+          <div class="donut-chart" aria-label="Biểu đồ tỉ lệ xuất kho">
+            <div class="donut-hole"></div>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item">
+              <span class="legend-swatch legend-primary"></span>
+              <span>Xuất kho cho NCC</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-swatch legend-secondary"></span>
+              <span>Hoàn hàng</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-stats">
+        <article class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <rect x="10" y="14" width="44" height="34" rx="2"></rect>
+              <path d="M20 14v-4h8v4m8 0v-4h8v4"></path>
+              <path d="M20 27h24m-18 10 8 6 12-10"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="stat-label">Số phiếu xuất kho</div>
+            <div class="stat-value" data-count="{{ total_receipts }}">{{ total_receipts }}</div>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <rect x="14" y="16" width="36" height="10" rx="2"></rect>
+              <rect x="18" y="26" width="28" height="22" rx="2"></rect>
+              <path d="M22 34h20"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="stat-label">Tổng lượng xuất kho</div>
+            <div class="stat-value" data-count="{{ total_export_quantity }}">{{ total_export_quantity }}</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-panel">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Mã phiếu</th>
+          <th>Người nhận</th>
+          <th>Giá trị</th>
+          <th>Thời gian</th>
+        </tr>
+      </thead>
+      <tbody id="report-table-body">
+        {% for receipt in page_obj %}
+        <tr>
+          <td>{{ page_obj.start_index|add:forloop.counter0 }}</td>
+          <td>PX{{ receipt.id|stringformat:"03d" }}</td>
+          <td>{{ receipt.doi_tuong_nhan.ten_nguoi_nhan }}</td>
+          <td>{{ receipt.total_value|floatformat:0 }}</td>
+          <td>{{ receipt.ngay_xuat|date:"d/m/Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">Không có dữ liệu trong khoảng thời gian đã chọn.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="pagination">
+      {% if page_obj.has_previous %}
+      <a class="page-btn" href="?start_date={{ start_date|date:'Y-m-d' }}&end_date={{ end_date|date:'Y-m-d' }}&page={{ page_obj.previous_page_number }}" aria-label="Trang trước">&#8249;</a>
+      {% else %}
+      <span class="page-btn is-disabled" aria-hidden="true">&#8249;</span>
+      {% endif %}
+
+      {% for page_number in page_obj.paginator.page_range %}
+        {% if page_number == page_obj.number %}
+        <span class="page-number is-active">{{ page_number }}</span>
+        {% else %}
+        <a class="page-number" href="?start_date={{ start_date|date:'Y-m-d' }}&end_date={{ end_date|date:'Y-m-d' }}&page={{ page_number }}">{{ page_number }}</a>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+      <a class="page-btn" href="?start_date={{ start_date|date:'Y-m-d' }}&end_date={{ end_date|date:'Y-m-d' }}&page={{ page_obj.next_page_number }}" aria-label="Trang sau">&#8250;</a>
+      {% else %}
+      <span class="page-btn is-disabled" aria-hidden="true">&#8250;</span>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/export-report.js' %}" defer></script>
+{% endblock %}

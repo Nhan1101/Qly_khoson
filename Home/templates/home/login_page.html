@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Đăng nhập ALEX</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  </head>
+  <body class="login-body">
+    <div class="login-page">
+      <header class="login-topbar">
+        <a class="login-logo" href="{% url 'landing-page' %}" aria-label="ALEX Home">
+          <img src="{{ logo_url }}" alt="ALEX">
+        </a>
+        <div class="login-brand">Sơn Alex sơn để Thành Công</div>
+      </header>
+
+      <main class="login-content">
+        <section class="promo-panel">
+          <img src="{{ poster_url }}" alt="Poster Sơn Alex">
+        </section>
+
+        <section class="login-card">
+          <h1>ĐĂNG NHẬP VÀO TÀI KHOẢN</h1>
+          <form class="login-form" action="#" method="post">
+            {% csrf_token %}
+            <label for="username">Tên đăng nhập</label>
+            <input id="username" name="username" type="text">
+
+            <label for="password">Mật khẩu</label>
+            <input id="password" name="password" type="password">
+
+            <button type="submit">ĐĂNG NHẬP</button>
+          </form>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
