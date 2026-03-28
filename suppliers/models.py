@@ -29,13 +29,8 @@ class SanPham(models.Model):
     loai_son = models.CharField(max_length=50)
     don_vi_tinh = models.CharField(max_length=20)
     so_luong_ton = models.IntegerField(default=0)
-
-<<<<<<< HEAD
-    gia_nhap = models.DecimalField(max_digits=15, decimal_places=2)
-=======
     gia_ban = models.DecimalField(max_digits=15, decimal_places=2, default=0)
     gia_nhap = models.DecimalField(max_digits=15, decimal_places=2, default=0)
->>>>>>> 16c1d25 (Fix products page and migrations)
     ty_le_loi_nhuan = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
     @property
@@ -43,9 +38,6 @@ class SanPham(models.Model):
         return self.gia_nhap * (1 + self.ty_le_loi_nhuan / 100)
 
     def __str__(self):
-<<<<<<< HEAD
-        return self.ten_son
-=======
         return f"{self.ma_son} - {self.ten_son}"
 
     @property
@@ -57,8 +49,6 @@ class SanPham(models.Model):
     def muc_toi_thieu(self):
         ton_kho = getattr(self, "tonkho", None)
         return ton_kho.muc_toi_thieu if ton_kho else 0
-
->>>>>>> 16c1d25 (Fix products page and migrations)
 
 # ================= NHÀ CUNG CẤP =================
 class NhaCungCap(models.Model):
