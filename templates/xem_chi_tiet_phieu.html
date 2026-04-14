@@ -5,7 +5,7 @@
 {% block content %}
 <style>
     .phieu-view-container { box-sizing: border-box; font-family: Arial, sans-serif; background-color: transparent; /* Trong suốt */ display: flex; justify-content: center; padding: 20px; min-height: calc(100vh - 60px); }
-    .phieu-modal { background: #ffffff; width: 820px; border: 1px solid #777; position: relative; padding-bottom: 50px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    .phieu-modal { background: #ffffff; width: 1200px; border: 1px solid #777; position: relative; padding-bottom: 50px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
     .phieu-header { text-align: center; padding: 22px 0 18px 0; }
     .phieu-header h2 { font-size: 17px; font-weight: 700; color: #000; margin: 0; }
     .btn-close-phieu { position: absolute; top: 15px; right: 20px; font-size: 20px; font-weight: bold; color: #000; cursor: pointer; background: none; border: none; text-decoration: none; }
@@ -43,10 +43,34 @@
             </div>
         </div>
         <table class="phieu-data-table">
-            <thead><tr><th style="width: 60px;">STT</th><th style="width: 170px;">Tên hàng hóa</th><th style="width: 110px;">Mã hàng</th><th style="width: 90px;">Đơn vị<br>tính</th><th style="width: 110px;">Đơn giá</th><th style="width: 90px;">Số lượng</th><th style="width: 130px;">Thành tiền</th></tr></thead>
+            <thead>
+                <tr>
+                    <th style="width: 50px;">STT</th>
+                    <th style="width: 170px;">Tên hàng hóa</th>
+                    <th style="width: 100px;">Mã hàng</th>
+                    <th style="width: 100px;">Số lô</th>
+                    <th style="width: 110px;">NSX</th>
+                    <th style="width: 110px;">HSD</th>
+                    <th style="width: 80px;">SL Tồn</th>
+                    <th style="width: 80px;">Đơn vị<br>tính</th>
+                    <th style="width: 100px;">Đơn giá</th>
+                    <th style="width: 80px;">Số lượng</th>
+                    <th style="width: 130px;">Thành tiền</th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
-                    <td><input type="text" class="line-input-phieu" style="width: 35px;" value="1"></td><td><input type="text" class="line-input-phieu" value="Sơn Alex - màu ABC"></td><td><input type="text" class="line-input-phieu" style="width: 75px;" value="XXXXXX"></td><td><input type="text" class="line-input-phieu" style="width: 50px;" value="thùng"></td><td><input type="text" class="line-input-phieu" style="width: 85px;" value="4.000.000"></td><td><input type="text" class="line-input-phieu" style="width: 50px;" value="10"></td><td><input type="text" class="line-input-phieu" style="width: 95px;" value="40.000.000"></td>
+                    <td><input type="text" class="line-input-phieu" style="width: 35px;" value="1"></td>
+                    <td><input type="text" class="line-input-phieu" value="Sơn Alex - màu ABC"></td>
+                    <td><input type="text" class="line-input-phieu" style="width: 75px;" value="XXXXXX"></td>
+                    <td><input type="text" class="line-input-phieu" style="width: 85px;" value="BATCH001"></td>
+                    <td><input type="text" class="line-input-phieu" style="width: 105px;" value="01/11/2023"></td>
+                    <td><input type="text" class="line-input-phieu" style="width: 105px;" value="01/11/2025"></td>
+                    <td><input type="text" class="line-input-phieu" style="width: 65px;" value="100"></td>
+                    <td><input type="text" class="line-input-phieu" style="width: 50px;" value="thùng"></td>
+                    <td><input type="text" class="line-input-phieu" style="width: 85px;" value="4.000.000"></td>
+                    <td><input type="text" class="line-input-phieu" style="width: 50px;" value="10"></td>
+                    <td><input type="text" class="line-input-phieu" style="width: 95px;" value="40.000.000"></td>
                 </tr>
             </tbody>
         </table>

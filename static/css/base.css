@@ -20,6 +20,7 @@ body {
   font-family: "Be Vietnam Pro", "Segoe UI", sans-serif;
   color: var(--text);
   background: #f3f4ff;
+  overflow-x: auto;
 }
 
 .topbar {
@@ -35,24 +36,24 @@ body {
   background: linear-gradient(90deg, var(--blue-900), var(--blue-600));
   color: #fff;
   border-bottom: 2px solid #0a0f5a;
-  z-index: 10;
+  z-index: 3000;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 14px;
+  height: 100%;
 }
 
 .logo {
-  width: 86px;
-  height: 40px;
-  object-fit: cover;
-  background: #0b0f6d;
+  height: 50px; /* Tăng kích thước logo */
+  width: auto;
+  display: block;
 }
 
 .slogan {
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
 }
 
@@ -83,11 +84,6 @@ body {
   cursor: pointer;
 }
 
-.icon {
-  display: grid;
-  place-items: center;
-}
-
 .icon svg {
   width: 20px;
   height: 20px;
@@ -104,10 +100,11 @@ body {
   left: 0;
   bottom: 0;
   width: var(--sidebar-w);
-  background: #fff;
+  background: #ffffff;
   border-right: 2px solid var(--blue-100);
   padding: 14px 12px 20px;
   overflow-y: auto;
+  z-index: 2000;
 }
 
 .sidebar-user {
@@ -152,10 +149,6 @@ body {
   gap: 8px;
 }
 
-.menu-group {
-  border-radius: 10px;
-}
-
 .menu-title {
   width: 100%;
   border: none;
@@ -179,13 +172,8 @@ body {
   display: inline-block;
 }
 
-.chevron {
-  margin-left: auto;
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid var(--muted);
-  border-bottom: 2px solid var(--muted);
-  transform: rotate(45deg);
+.menu-group.is-open .menu-items {
+  display: block;
 }
 
 .menu-items {
@@ -199,8 +187,8 @@ body {
 
 .menu-items li {
   margin: 6px 0;
-  position: relative;
   padding-left: 12px;
+  position: relative;
 }
 
 .menu-items li::before {
@@ -208,31 +196,20 @@ body {
   position: absolute;
   left: 0;
   color: var(--muted);
-  font-size: 12px;
-}
-
-.menu-items a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.menu-items a:hover {
-  color: #0e1585;
-}
-
-.menu-group.is-open .menu-items {
-  display: block;
-}
-
-.menu-group.is-open .chevron {
-  transform: rotate(-135deg);
 }
 
 .main {
-  margin-left: var(--sidebar-w);
-  padding: 18px 24px 24px;
+  margin-left: 0;
+  padding-top: 0;
+  padding-left: var(--sidebar-w);
   min-height: calc(100vh - var(--topbar-h));
   width: 100%;
+  display: inline-block;
+}
+
+.main-content-wrapper {
+  padding: 18px 24px 24px;
+  min-width: 1250px;
 }
 
 .content-card {
@@ -243,38 +220,9 @@ body {
   display: grid;
   place-items: center;
   font-size: 24px;
-  font-style: italic;
-  color: #5a5f7b;
-}
-
-@media (max-width: 900px) {
-  :root {
-    --sidebar-w: 220px;
-  }
-
-  .slogan {
-    font-size: 16px;
-  }
 }
 
 @media (max-width: 760px) {
-  .topbar {
-    flex-wrap: wrap;
-    height: auto;
-    padding: 10px 14px;
-  }
-
-  .layout {
-    padding-top: 96px;
-  }
-
-  .sidebar {
-    position: static;
-    width: 100%;
-    border-right: none;
-  }
-
-  .main {
-    margin-left: 0;
-  }
+  .sidebar { position: static; width: 100%; }
+  .main { padding-left: 0; }
 }
